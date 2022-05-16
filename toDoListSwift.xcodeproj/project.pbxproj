@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		F57017F9240913890033A450 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57017F8240913890033A450 /* AppDelegate.swift */; };
 		F57017FB240913890033A450 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57017FA240913890033A450 /* SceneDelegate.swift */; };
-		F57017FD240913890033A450 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57017FC240913890033A450 /* ViewController.swift */; };
+		F57017FD240913890033A450 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57017FC240913890033A450 /* SignUpVC.swift */; };
 		F5701800240913890033A450 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F57017FE240913890033A450 /* Main.storyboard */; };
 		F57018022409138B0033A450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F57018012409138B0033A450 /* Assets.xcassets */; };
 		F57018052409138B0033A450 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F57018032409138B0033A450 /* LaunchScreen.storyboard */; };
 		F570180D24091E950033A450 /* taskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F570180C24091E950033A450 /* taskListViewController.swift */; };
 		F570180F24091EB50033A450 /* addTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F570180E24091EB50033A450 /* addTaskViewController.swift */; };
-		F59A1134269DAC1000030FB1 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F59A1133269DAC1000030FB1 /* GoogleSignIn.bundle */; };
 		F59A1137269DAC3200030FB1 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59A1136269DAC3200030FB1 /* LocalAuthentication.framework */; };
 		F59A1139269DAC3F00030FB1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59A1138269DAC3F00030FB1 /* SafariServices.framework */; };
 		F59A113B269DAC4C00030FB1 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59A113A269DAC4C00030FB1 /* AuthenticationServices.framework */; };
@@ -26,14 +25,13 @@
 		F57017F5240913890033A450 /* toDoListSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toDoListSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F57017F8240913890033A450 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F57017FA240913890033A450 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F57017FC240913890033A450 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F57017FC240913890033A450 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		F57017FF240913890033A450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F57018012409138B0033A450 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F57018042409138B0033A450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F57018062409138B0033A450 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F570180C24091E950033A450 /* taskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = taskListViewController.swift; sourceTree = "<group>"; };
 		F570180E24091EB50033A450 /* addTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTaskViewController.swift; sourceTree = "<group>"; usesTabs = 0; };
-		F59A1133269DAC1000030FB1 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = toDoListSwift/GoogleSignIn.bundle; sourceTree = "<group>"; };
 		F59A1136269DAC3200030FB1 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		F59A1138269DAC3F00030FB1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		F59A113A269DAC4C00030FB1 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
@@ -58,7 +56,6 @@
 		F57017EC240913890033A450 = {
 			isa = PBXGroup;
 			children = (
-				F59A1133269DAC1000030FB1 /* GoogleSignIn.bundle */,
 				F57017F7240913890033A450 /* toDoListSwift */,
 				F57017F6240913890033A450 /* Products */,
 				F59A1135269DAC3200030FB1 /* Frameworks */,
@@ -78,7 +75,7 @@
 			children = (
 				F57017F8240913890033A450 /* AppDelegate.swift */,
 				F57017FA240913890033A450 /* SceneDelegate.swift */,
-				F57017FC240913890033A450 /* ViewController.swift */,
+				F57017FC240913890033A450 /* SignUpVC.swift */,
 				F57017FE240913890033A450 /* Main.storyboard */,
 				F57018012409138B0033A450 /* Assets.xcassets */,
 				F57018032409138B0033A450 /* LaunchScreen.storyboard */,
@@ -158,7 +155,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F59A1134269DAC1000030FB1 /* GoogleSignIn.bundle in Resources */,
 				F57018052409138B0033A450 /* LaunchScreen.storyboard in Resources */,
 				F57018022409138B0033A450 /* Assets.xcassets in Resources */,
 				F5701800240913890033A450 /* Main.storyboard in Resources */,
@@ -173,7 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F570180F24091EB50033A450 /* addTaskViewController.swift in Sources */,
-				F57017FD240913890033A450 /* ViewController.swift in Sources */,
+				F57017FD240913890033A450 /* SignUpVC.swift in Sources */,
 				F570180D24091E950033A450 /* taskListViewController.swift in Sources */,
 				F57017F9240913890033A450 /* AppDelegate.swift in Sources */,
 				F57017FB240913890033A450 /* SceneDelegate.swift in Sources */,

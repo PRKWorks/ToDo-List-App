@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 // MARK: - taskInfoTableViewCell
 
 class taskInfoTableViewCell : UITableViewCell
@@ -16,185 +15,240 @@ class taskInfoTableViewCell : UITableViewCell
     @IBOutlet weak var taskTitleLabel: UILabel!
     @IBOutlet weak var taskDetailLabel: UILabel!
     @IBOutlet weak var taskImageView: UIImageView!
+    @IBOutlet weak var taskTimeLabel: UILabel!
 }
 
-class taskListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
-    
+class taskListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate
+{
     @IBOutlet weak var taskListTV: UITableView!
     @IBOutlet weak var addTaskBtn: UIBarButtonItem!
-    var taskTitle = [String]()
-    var taskName = ""
-    var rowValue : Int!
-    
-    // MARK: - taskinfo
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var taskInfoLabel: UILabel!
+    @IBOutlet weak var plusTaskBTN: UIButton!
+    var taskArray = [[String:String]]()
+    var timeArray : [String] = []
+    var taskTimeArray : [String] = []
+    var taskTimeValueArray : [String] = []
+    var taskImageName : String = ""
+    var taskLabelName : String = ""
 
-    struct taskinfo {
-        var name : String
-        var details : String
-        var time : String
-    }
-
-    var taskData = [taskinfo(name: "Ram",details: "Make a symbolic breakpoint",time :                               "10/25/20, 11:50 PM"),
-                    taskinfo(name: "Ashok",details: "Make a symbolic breakpoint",time: "10/26/20, 11:51 PM"),
-                    taskinfo(name: "Raj",details: "Make a symbolic breakpoint",time : "10/27/20, 11:52 PM"),
-                    taskinfo(name: "Raja",details: "Make a symbolic breakpoint",time : "10/28/20, 11:53 PM"),
-                    taskinfo(name: "Rajesh",details: "Make a symbolic breakpoint",time : "10/29/20, 11:54 PM")
-    ]
-    
-    var tasksArray: [Any] = []
-    
-   public var completionHandler : ((String)->Void)?
-    
-    // MARK: - Add Task Btn
-
-    @IBAction func plusTaskBtn(_ sender: Any) {
-        
+    // MARK: - AddTaskBtn
+    @IBAction func addTaskBtn(_ sender: UIBarButtonItem) {
         let  vc = storyboard?.instantiateViewController(identifier: "addTaskIdentifier") as! addTaskViewController
         navigationController?.pushViewController(vc, animated: true)
-        vc.newTitle = "Add Tasks"
-        let enteredTitle = addTaskViewController()
-        vc.title = "New Tasks"
-        vc.update = {
-            DispatchQueue.main.async
-            {
-
-            }
-        }
+        vc.title = "Add Task"
     }
     
     // MARK: - viewDidLoad
-    
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        
         self.navigationItem.setHidesBackButton(true, animated: true)
-        taskListTV.reloadData()
-        self.title = "Tasks"
-        UserDefaults.standard.removeObject(forKey: "indexKey")
-
         // Do any additional setup after loading the view.
-        
         self.taskListTV.delegate = self
         self.taskListTV.dataSource = self
-        
-        if !UserDefaults().bool(forKey: "Setup"){
-            UserDefaults().set(true, forKey: "Setup")
-            UserDefaults().set(0, forKey: "count ")
-        }
+        self.messageLabel.text = "Hello, \(String(describing: UserDefaults.standard.string(forKey: "UserFirstName")!))"
+        taskListTV.reloadData()
+    }
+    
+    // MARK: - plusTasksBTN
+    @IBAction func plusTaskBTN(_ sender: Any) {
+        let  vc = storyboard?.instantiateViewController(identifier: "addTaskIdentifier") as! addTaskViewController
+        navigationController?.pushViewController(vc, animated: true)
+        vc.title = "Add Task"
     }
     
     // MARK: - viewWillAppear
-
-    override func viewWillAppear(_ animated: Bool) {
-        
-        let toDoTitle = UserDefaults.standard.string(forKey: "ToDoTitle")
-        let toDoDetails = UserDefaults.standard.string(forKey: "ToDoDetail")
-        let toDoTime = UserDefaults.standard.string(forKey: "ToDoTime")
-        let rowNumber = UserDefaults.standard.string(forKey: "indexKey")
-
-        var tasksDict = [String:String]()
-        tasksDict["Title:"] = toDoTitle
-        tasksDict["Details:"] = toDoDetails
-        tasksDict["Time:"] = toDoTime
-        
-        if (toDoTitle?.count != 0)&&(toDoTitle?.count != nil){
-        //  Append value if not nil
-
-            if(rowNumber?.count != 0)&&(rowNumber?.count != nil){
-                //  Replace if row number not nil
-                taskData.remove(at: Int(rowNumber!) ?? 0)
-                taskData.append(taskinfo.init(name: toDoTitle!, details: toDoDetails!, time: toDoTime!))
-            }else{
-                //  Append new data
-                taskData.append(taskinfo.init(name: toDoTitle!, details: toDoDetails!, time: toDoTime!))
-            }
-        } else{
-         // Do Nothing
+    override func viewWillAppear(_ animated: Bool)
+    {
+        FetchDataFromPlist()
+        setTimeValue()
+        if(self.taskArray.count != 0)
+        {
+            self.plusTaskBTN.isHidden = true
+            self.taskListTV.isHidden = false
         }
-        
-        // Remove UserDefaults
-        UserDefaults.standard.removeObject(forKey: "ToDoTitle")
-        UserDefaults.standard.removeObject(forKey: "ToDoDetail")
-        UserDefaults.standard.removeObject(forKey: "ToDoTime")
-        UserDefaults.standard.removeObject(forKey: "indexKey")
-        
-        var oldTaskArray = UserDefaults.standard.array(forKey: "toDoArray")
-        oldTaskArray?.removeAll()
-
-        var newTaskArray = [[String:String]]()
-        newTaskArray.insert(tasksDict, at: 0)
-        let updatedTaskArray = newTaskArray + oldTaskArray!
-
-        UserDefaults.standard.set(updatedTaskArray, forKey: "toDoArray")
-        UserDefaults.standard.synchronize()
-        
-        tasksArray.append(contentsOf: updatedTaskArray)
-        taskListTV.reloadData()
-        
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - FetchDataFromPlist
+    func FetchDataFromPlist()
+    {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("StoreTaskData.plist")
+        var data = Data()
+        do
+        {
+            data = try Data(contentsOf: path)
+            taskArray = try! (PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as? [[String:String]])!
+            taskInfoLabel.text = "You have \(taskArray.count) tasks"
+        }
+        catch
+        {
+        }
     }
-    */
     
+    // MARK: - setTimeValue
+    func setTimeValue()
+    {
+        // Remove Duplicate values
+        taskTimeArray.removeAll()
+        taskTimeValueArray.removeAll()
+        
+        for index in 0..<taskArray.count
+        {
+            taskTimeArray.append(taskArray[index]["TaskTime:"]!)
+            let timeValue = findTimeDifference(time: taskTimeArray[index])
+            taskTimeValueArray.append(timeValue)
+            taskListTV.reloadData()
+        }
+    }
+    
+    // MARK: - displayTimeLabel
+    func displayTimeLabel(index : IndexPath)
+    {
+        if(taskTimeValueArray[index.row] == "Today")
+        {
+            taskImageName = "Aquamarine"
+            taskLabelName = "Today"
+        }
+        else if(self.taskTimeValueArray[index.row] == "Tomorrow")
+        {
+            taskImageName = "Water"
+            taskLabelName = "Tomorrow"
+        }
+        else if(self.taskTimeValueArray[index.row] == "Yesterday")
+        {
+            taskImageName = "Hot Pink"
+            taskLabelName = "Yesterday"
+        }
+        else if(self.taskTimeValueArray[index.row] == "Oldest")
+        {
+            taskImageName = "Red Orange"
+            taskLabelName = "Oldest"
+        }
+        else if(self.taskTimeValueArray[index.row] == "Later")
+        {
+            taskImageName = "Pale Canary"
+            taskLabelName = "Later"
+        }
+    }
+
     // MARK: - TableView
-
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int
+    {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        return taskData.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        if(taskArray.count == 0)
+        {
+            self.taskListTV.isHidden = true
+            return 0
+        }
+        else {
+            self.taskListTV.isHidden = false
+            return taskArray.count
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! taskInfoTableViewCell
-     
-        let tast1 = taskData[indexPath.row]
-        cell.taskTitleLabel?.text = tast1.name
-        cell.taskDetailLabel?.text = tast1.details
-        
+        DispatchQueue.main.async
+        { [self] in
+            cell.taskTitleLabel?.text = taskArray[indexPath.row]["TaskTitle:"]
+            cell.taskDetailLabel?.text = taskArray[indexPath.row]["TaskDetail:"]
+            displayTimeLabel(index: indexPath)
+            cell.taskImageView.image = UIImage(named: taskImageName)
+            cell.taskImageView.clipsToBounds = true
+            cell.taskImageView.layer.cornerRadius = 10
+            cell.taskImageView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMinXMinYCorner]
+            let degrees : Double = -90; //the value in degrees
+            cell.taskTimeLabel.transform = CGAffineTransform(rotationAngle: CGFloat(degrees * .pi/180))
+            cell.taskTimeLabel.text = taskLabelName
+            cell.layer.backgroundColor = UIColor.clear.cgColor
+            cell.backgroundColor = .clear
+        }
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
         taskListTV.deselectRow(at: indexPath, animated: true)
-        
         let  vc = storyboard?.instantiateViewController(identifier: "addTaskIdentifier") as! addTaskViewController
         self.navigationController?.pushViewController(vc, animated: true)
-        let tast2 = taskData[indexPath.row]
-        vc.desiredNameValue = tast2.name
-        vc.desiredDetailValue = tast2.details
-        vc.desiedTimeValue = tast2.time
-        vc.newTitle = "Edit Tasks"
-        vc.indexString = String(indexPath.row)
+        vc.desiredNameValue = taskArray[indexPath.row]["TaskTitle:"]
+        vc.desiredTimeValue =  taskArray[indexPath.row]["TaskTime:"]
+        vc.desiredDetailValue = taskArray[indexPath.row]["TaskDetail:"]
+        vc.title = "Edit Task"
+        vc.indexString = indexPath.row
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 150
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
+    {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if(editingStyle == UITableViewCell.EditingStyle.delete){
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
+    {
+        if(editingStyle == UITableViewCell.EditingStyle.delete)
+        {
             taskListTV.beginUpdates()
-            taskData.remove(at: indexPath.row)
+            taskArray.remove(at: indexPath.row)
             taskListTV.deleteRows(at: [indexPath], with: .none)
+            deleteValueFromPList(indexValue: indexPath.row)
             taskListTV.endUpdates()
+        }
+    }
+            
+    // MARK: - findTimeDifference
+    func findTimeDifference(time : String) -> String
+    {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy, h:mm a"
+        let inputDate = dateFormatter.date(from: time)
+        if calendar.isDateInToday(inputDate!) {
+            return "Today"
+        }
+        else if calendar.isDateInYesterday(inputDate!) {
+            return "Yesterday"
+        }
+        else if calendar.isDateInTomorrow(inputDate!) {
+            return "Tomorrow"
+        }
+        else
+        {
+            let startOfNow = calendar.startOfDay(for: inputDate!)
+            let startOfTimeStamp = calendar.startOfDay(for: Date())
+            let components = calendar.dateComponents([.day], from: startOfTimeStamp, to: startOfNow)
+            let day = components.day!
+            if day < 1 {
+                return "Oldest"
             }
+            else {
+                return "Later"
+            }
+        }
     }
     
+    // MARK: - deleteValueFromPList
+    func deleteValueFromPList(indexValue : Int)
+    {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("StoreTaskData.plist")
+        try! PropertyListEncoder().encode(taskArray).write(to: path)
+        taskInfoLabel.text = "You have \(taskArray.count) tasks"
+        if(taskArray.count == 0)
+        {
+            plusTaskBTN.isHidden = false
+            self.taskListTV.isHidden = true
+        }
+    }
 }
 
 
