@@ -2,7 +2,7 @@
 
 To-Do List App is to track your day-to-day activities, tasks, and projects with a simple interface and a variety of features, it is the easiest way to managing daily workloads for you while on the move.
 
-## Screenshots!!!!
+## Screenshots!!
 
 <p float="left">
 <img src="https://user-images.githubusercontent.com/88550114/168573030-bd76193d-8552-4c94-aca8-e2f82d14a4c6.png" width="200" height="430" />
