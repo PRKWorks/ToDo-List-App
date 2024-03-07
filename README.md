@@ -1,18 +1,18 @@
 # ToDo-List-App 📱 
+![To-Do List App-BG](https://github.com/PRKWorks/ToDo-List-App/assets/88550114/ca9670ba-319b-4269-8737-d364d420dfb7)
 
 To-Do List App is to track your day-to-day activities, tasks, and projects with a simple interface and a variety of features, it is the easiest way to managing daily workloads for you while on the move.
 
-## Screenshots
+## 📸 Screenshots
+![To-Do List App-ScreenShots](https://github.com/PRKWorks/ToDo-List-App/assets/88550114/acb921a7-0108-4753-b185-b5ec0cc9ccf3)
 
-<p float="left">
-<img src="https://user-images.githubusercontent.com/88550114/168573030-bd76193d-8552-4c94-aca8-e2f82d14a4c6.png" width="200" height="430" />
-<img src="https://user-images.githubusercontent.com/88550114/168573212-f5f3b891-be64-4f40-91ac-3c32c8906d10.png" width="200" height="430" />
-<img src="https://user-images.githubusercontent.com/88550114/168573244-56f3e38d-b5a8-4f43-b3ac-dfa8be2ba51c.png" width="200" height="430" />
-<img src="https://user-images.githubusercontent.com/88550114/169047616-4e45d0a6-43e4-45cb-b762-32e0dd72e1cd.png" width="200" height="430" />
-<img src="https://user-images.githubusercontent.com/88550114/168576205-40e5eff9-02a6-4276-b29e-6001b230bac5.png" width="200" height="430" />
-</p>
+## 💡 Motivation and Context
+- Efficient Task Management: Leveraging Swift for streamlined task organization and prioritization.
+- Seamless User Experience: Crafting a smooth and intuitive interface for effortless task tracking.
+- Robust Data Handling: Implementing Swift to ensure reliable data storage and retrieval.
+- Enhanced Productivity: Empowering users with a powerful tool to manage their daily activities effectively.
 
-## Modules
+## 📌 Modules
 
 o	Customized TableViewCell
 
